@@ -1,4 +1,5 @@
 <x-layout>
-    <h1>job: {$id}</h1>
+   <h1 class="text-3xl"> {{$job->title}}</h1>
+    <p class="mt-5">{{$job->description}}</p>
 </x-layout>
 
