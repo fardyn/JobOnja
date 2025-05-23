@@ -16,16 +16,19 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->after('id');
             $table->integer('salary');
             $table->string('tags')->nullable();
-            $table->enum('job_type', ['full-time', 'part-time', 'contract', 'temporary', 'intern', 'on-call', 'volunteer']);
+            $table->enum('job_type', ['Part-Time', 'Full-Time', 'Contract', 'Temporary', 'Intern', 'On-call', 'Volunteer']);
             $table->boolean('remote')->default(false);
-            $table->text('requirement')->nullable();
+            $table->text('requirements')->nullable();
             $table->text('benefits')->nullable();
             $table->string('city');
             $table->string('address');
+            $table->string('state');
             $table->string('zipcode')->nullable();
-            $table->string('contact_name');
+            $table->string('contact_name')->nullable();
             $table->string('contact_phone')->nullable();
+            $table->string('contact_email');
             $table->string('company_name');
+            $table->string('company_address')->nullable();
             $table->text('company_description');
             $table->string('company_logo')->nullable();
             $table->string('company_website')->nullable();
@@ -51,11 +54,13 @@ return new class extends Migration
                 'requirement',
                 'benefits',
                 'city',
+                'state',
                 'address',
                 'zipcode',
                 'contact_name',
                 'contact_phone',
                 'company_name',
+                'company_address',
                 'company_description',
                 'company_logo',
                 'company_website');

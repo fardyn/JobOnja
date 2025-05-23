@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Job extends Model
 {
     use HasFactory;
-    protected $table = "job_listing";
+    protected $table = 'job_listing';
     protected $fillable = [
         "title",
         "description",
