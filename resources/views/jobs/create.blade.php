@@ -86,8 +86,8 @@
                     name="remote"
                     class="w-full px-4 py-2 border rounded focus:outline-none"
                 >
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
+                    <option value="False">No</option>
+                    <option value="True">Yes</option>
                 </select>
             </div>
 
@@ -103,7 +103,7 @@
 
             <x-inputs.text id="company_name" name="company_name" lable="Company Name" placeholder="Apple"/>
             <x-inputs.text id="company_description" name="company_description" lable="Company Description" placeholder="Company Description"/>
-            <x-inputs.text id="company_website" name="company_website" lable="Company Website" placeholder="Apple.com"/>
+            <x-inputs.text id="company_website" name="company_website" type="url" lable="Company Website" placeholder="Apple.com"/>
             <x-inputs.text id="contact_phone" name="contact_phone" lable="Contact Phone" placeholder="Enter phone"/>
             <x-inputs.text id="contact_email" type="email"  name="contact_email" lable="Contact Email" placeholder="Email where you want to receive applications"/>
 
@@ -129,6 +129,15 @@
             >
                 Save
             </button>
+            @if ($errors->any())
+                <div>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="text-red-600">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </form>
     </div>
  </x-layout>
