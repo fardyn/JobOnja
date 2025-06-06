@@ -6,6 +6,7 @@ use App\Models\Job;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class JobController extends Controller
@@ -32,9 +33,6 @@ class JobController extends Controller
      */
     public function store(Request $request) : RedirectResponse
     {
-        $title = $request->input('title');
-        $description = $request->input('description');
-
         $validatedData = $request->validate([
             'title' => "required|string|max:255",
             'description' => "required|string",
@@ -102,8 +100,13 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Job $job) : RedirectResponse
     {
-        //
+        if ($job->company_logo) {
+            Storage::delete('public/logos' . $job->company_logo);
+        }
+
+        $job->delete();
+        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
 }
