@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class JobController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -23,8 +27,9 @@ class JobController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create() : View
+    public function create() : View | RedirectResponse
     {
+
         return view('jobs.create');
     }
 
@@ -55,8 +60,7 @@ class JobController extends Controller
         ]);
 
 
-        //hard coded user ID
-        $validatedData['user_id'] = 1;
+        $validatedData['user_id'] = auth()->user()->id;
 
 
         //check for image
@@ -84,17 +88,59 @@ class JobController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Job $job) :View
     {
-        //
+        $this->authorize('update', $job);
+        return view('jobs.edit', compact('job'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Job $job) : string
     {
-        //
+        $this->authorize('update', $job);
+
+        $validatedData = $request->validate([
+            'title' => "required|string|max:255",
+            'description' => "required|string",
+            'salary' => "required|integer",
+            'tags' => "nullable|string",
+            'job_type' => "required|string",
+            'remote' => "required|in:True,False",
+            'requirements' => "nullable|string",
+            'benefits' => "nullable|string",
+            'address' => "required|string",
+            'city' => "required|string",
+            'state' => "required|string",
+            'zipcode' => "nullable|string",
+            'contact_email' => "required|string",
+            'contact_phone' => "nullable|string",
+            'company_name' => "required|string",
+            'company_description' => "nullable|string",
+            'company_logo' => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048",
+            'company_website' => "nullable|url",
+        ]);
+
+
+        $validatedData['user_id'] = auth()->user()->id;
+
+
+        //check for image
+        if ($request->hasFile('company_logo')) {
+            // Delete old logo
+            Storage::delete('public/logos/' . basename($job->company_logo));
+
+            //store file and get path
+            $path = $request->file('company_logo')->store('logos', 'public');
+            $validatedData['company_logo'] = $path;
+        }
+
+
+        //update into database
+        $job->update($validatedData);
+
+        return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
     }
 
     /**
@@ -102,6 +148,8 @@ class JobController extends Controller
      */
     public function destroy(Job $job) : RedirectResponse
     {
+        $this->authorize('delete', $job);
+
         if ($job->company_logo) {
             Storage::delete('public/logos' . $job->company_logo);
         }

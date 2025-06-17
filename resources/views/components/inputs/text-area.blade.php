@@ -1,8 +1,8 @@
-@props(['id', 'name', 'lable' => null, 'value' => '', 'placeholder'=> ''])
+@props(['id', 'name', 'label' => null, 'value' => '', 'placeholder'=> ''])
 
 <div class="mb-4">
     <label class="block text-gray-700" for="description"
-    >Job Description</label
+    >{{$label}}</label
     >
     <textarea
         cols="30"

@@ -8,15 +8,18 @@ use App\Http\Controllers\RegisterController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::resource('jobs', JobController::class);
-
-Route::get('/register', [RegisterController::class, 'register'])->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+Route::resource('jobs', JobController::class)->middleware('auth')->only(['create', 'edit', 'store', 'update', 'destroy']);
+Route::resource('jobs', JobController::class)->except(['create', 'edit', 'store', 'update', 'destroy']);
 
 
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
-
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisterController::class, 'register'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+    Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+});
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 

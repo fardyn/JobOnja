@@ -7,9 +7,10 @@
                         <i class="fa fa-arrow-alt-circle-left"></i>
                         Back To Listings
                     </a>
+                    @can('update', $job)
                     <div class="flex space-x-3 ml-4">
                         <a
-                            href="/edit"
+                            href="/jobs/{{$job->id}}/edit"
                             class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
                         >Edit</a
                         >
@@ -26,6 +27,7 @@
                         </form>
                         <!-- End Delete Form -->
                     </div>
+                    @endcan
                 </div>
                 <div class="p-4">
                     <h2 class="text-xl font-semibold">{{$job->title}}</h2>
