@@ -1,6 +1,6 @@
 @props(['job'])
 
-<div class="rounded-lg shadow-md bg-white p-4">
+<div class="rounded-lg shadow-md bg-white p-4 mb-2">
     <div class="flex items-center space-between gap-4">
         @if ($job->company_logo)
             <img
