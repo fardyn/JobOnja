@@ -5,8 +5,14 @@
         @empty
             <p>No jobs available</p>
         @endforelse
-       <a href="{{route('jobs.index')}}" class="block text-xl text-center mt-110">
+       <div>
+           <a href="{{route('jobs.index')}}" class=" block text-xl text-center mt-10">
+       </div>
+
            <i class="fa fa-arrow-alt-circle-right "></i> Show all jobs
        </a>
    </div>
+
+    {{--pagination lists--}}
+    {{$jobs->links()}}
 </x-layout>

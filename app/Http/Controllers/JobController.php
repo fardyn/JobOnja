@@ -20,7 +20,8 @@ class JobController extends Controller
      */
     public function index() : View
     {
-       $jobs = Job::all();
+       $jobs = Job::paginate(9);
+
         return view('jobs.index', compact('jobs'));
     }
 
@@ -146,7 +147,7 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Job $job) : RedirectResponse
+    public function destroy(Request $request, Job $job) : RedirectResponse
     {
         $this->authorize('delete', $job);
 
@@ -155,6 +156,11 @@ class JobController extends Controller
         }
 
         $job->delete();
+
+        if($request->query('from') == 'dashboard') {
+            return redirect()->route('dashboard')->with('success', 'Job Deleted successfully.');
+        }
+
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
 }

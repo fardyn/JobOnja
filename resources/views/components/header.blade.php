@@ -12,7 +12,20 @@
             <x-nav-link url="/jobs/saved" :active="request()->is('jobs/saved')">Saved jobs</x-nav-link>
             <x-nav-link url="/dashboard" :active="request()->is('dashboard') " icon='gauge'>dashboard</x-nav-link>
                 <x-logout-button></x-logout-button>
-            <x-button-link url="/jobs/create" type="button" icon="edit">Create Job</x-button-link>
+                <div class="flex items-center space-x-3">
+                    <a href="{{route('dashboard')}}">
+                        @if(Auth::user()->avatar)
+                            <img src="{{asset('storage/' . Auth::user()->avatar)}}" alt="Profile image"
+                                 class="w-10 h-10 rounded-full " >
+                        @else
+                            <img src="{{asset('storage/avatars/default.jpg')}}" alt="Profile image"
+                                 class="w-10 h-10 rounded-full " >
+                        @endif
+
+                    </a>
+                    <x-button-link url="/jobs/create" type="button" icon="edit">Create Job</x-button-link>
+
+                </div>
             @else
                 <x-nav-link url="/login" :active="request()->is('login')">Login</x-nav-link>
                 <x-nav-link url="/register" :active="request()->is('register')">register</x-nav-link>

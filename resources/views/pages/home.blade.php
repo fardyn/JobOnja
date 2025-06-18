@@ -6,9 +6,12 @@
         @empty
             <p>No jobs available</p>
         @endforelse
-        <a href="{{route('jobs.index')}}" class="block text-xl text-center">
-            <i class="fa fa-arrow-alt-circle-right "></i> Show all jobs
-        </a>
+        <div class="flex items-center">
+            <i class="fa fa-arrow-alt-circle-right mx-2 "></i>
+            <a href="{{route('jobs.index')}}" class="block text-xl text-center">Show all jobs</a>
+        </div>
+
+
     </div>
     <x-bottom-banner/>
 </x-layout>

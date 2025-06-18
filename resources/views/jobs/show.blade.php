@@ -15,7 +15,7 @@
                         >Edit</a
                         >
                         <!-- Delete Form -->
-                        <form method="POST" {{route('jobs.destroy', $job->id)}} onsubmit="return confirm('are you sure that you want to delete this job?')">
+                        <form method="POST" action="{{route('jobs.destroy', $job->id)}}" onsubmit="return confirm('are you sure that you want to delete this job?')">
                             @csrf
                             @method('DELETE')
                             <button
