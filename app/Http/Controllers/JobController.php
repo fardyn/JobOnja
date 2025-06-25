@@ -163,4 +163,36 @@ class JobController extends Controller
 
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
+
+    // @desc seach for jobs
+    // @route GET /jobs/search
+
+    public function search(Request $request) : View
+    {
+        $keyword = strtolower($request->input('keywords'));
+        $location = strtolower($request->input('location'));
+
+        $query = Job::query();
+
+        if ($keyword !== '') {
+            $query->where(function ($q) use ($keyword) {
+                $q->whereRaw('LOWER(title) like ?', ['%' . $keyword . '%'])
+                ->orWhereRaw('LOWER(description) like ?', ['%' . $keyword . '%'])
+                ->orWhereRaw('LOWER(tags) like ?', ['%' . $keyword . '%']);
+            });
+        }
+
+        if ($location !== '') {
+            $query->where(function ($q) use ($location) {
+                $q->whereRaw('LOWER(address) like ?', ['%' . $location . '%'])
+                    ->orWhereRaw('LOWER(city) like ?', ['%' . $location . '%'])
+                    ->orWhereRaw('LOWER(state) like ?', ['%' . $location . '%'])
+                    ->orWhereRaw('LOWER(zipcode) like ?', ['%' . $location . '%']);
+            });
+        }
+
+        $jobs = $query->paginate(9);
+        return view('jobs.index', compact('jobs'));
+
+    }
 }

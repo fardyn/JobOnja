@@ -12,6 +12,8 @@ use \App\Http\Controllers\BookmarkController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search');
+
 Route::resource('jobs', JobController::class)->middleware('auth')->only(['create', 'edit', 'store', 'update', 'destroy']);
 Route::resource('jobs', JobController::class)->except(['create', 'edit', 'store', 'update', 'destroy']);
 
