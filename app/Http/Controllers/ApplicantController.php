@@ -52,8 +52,8 @@ class ApplicantController extends Controller
         return redirect('/jobs');
     }
 
-    // @desc delete job applicant
-    // @route DELETE /applicant/{applicant}
+    // @desc delete job applicants
+    // @route DELETE /applicants/{applicants}
 
     public function destroy($id) : RedirectResponse
     {

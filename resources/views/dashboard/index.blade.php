@@ -78,7 +78,7 @@
                         </a>
                     </p>
                     {{--Delete Applicants--}}
-                    <form method="POST" action="{{route('applicants.destroy', $applicant->id)}}" onsubmit="return confirm('Are you sure you want to DELETE this applicant?')">
+                    <form method="POST" action="{{route('applicants.destroy', $applicant->id)}}" onsubmit="return confirm('Are you sure you want to DELETE this applicants?')">
                         @csrf
                         @method('DELETE')
                         <button class="text-red-500 text-sm hover:text-red-700" type="submit mt-2">

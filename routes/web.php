@@ -38,6 +38,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/applicants/{job}', [ApplicantController::class, 'store'])->name('applicants.store')->middleware('auth');
-Route::delete('/applicants/{applicant}', [ApplicantController::class, 'destroy'])->name('applicants.destroy')->middleware('auth');
+Route::delete('/applicants/{applicants}', [ApplicantController::class, 'destroy'])->name('applicants.destroy')->middleware('auth');
 
 

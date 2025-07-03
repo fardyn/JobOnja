@@ -45,13 +45,17 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('job_listing', function (Blueprint $table) {
-            $table->dropForeign('user_id');
-            $table->dropColumn('user_id');
-            $table->dropColumn('salary',
+            // Correct way to drop foreign key by column name:
+            $table->dropForeign(['user_id']);
+
+            // Then drop columns - pass as array:
+            $table->dropColumn([
+                'user_id',
+                'salary',
                 'tags',
                 'job_type',
                 'remote',
-                'requirement',
+                'requirements',       // note: your up() uses 'requirements' (plural), not 'requirement'
                 'benefits',
                 'city',
                 'state',
@@ -59,11 +63,13 @@ return new class extends Migration
                 'zipcode',
                 'contact_name',
                 'contact_phone',
+                'contact_email',      // you forgot to drop this in your down()
                 'company_name',
                 'company_address',
                 'company_description',
                 'company_logo',
-                'company_website');
+                'company_website'
+            ]);
         });
     }
 };

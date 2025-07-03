@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - postgres
+  vite:
+    build: .
+    command: bash -c "npm install && npm run dev"
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "5173:5173"
+    depends_on:
+      - app
+  postgres:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: jobonja
+      POSTGRES_USER: jobonja
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
